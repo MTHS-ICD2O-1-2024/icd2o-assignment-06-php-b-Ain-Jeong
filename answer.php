@@ -26,19 +26,31 @@
       </div>
     </header>
     <main class="mdl-layout__content">
-      <div class="right-image">
-        <img src="https://openweathermap.org/img/wn/03d@2x.png" alt="cloud image" width="95%" height="auto">
-      </div>
       <br />
-      <form action="answer.php" method="get">
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-          type="submit">
-          Weather Today
-        </button>
-      </form>
-      <div class="page-content-answer">
-        <div id="weather-today-number"></div>
-        <div id="weather-today"></div>
+      <?php
+      $apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=45.4211435&lon=-75.6900574&appid=fe1d80e1e103cff8c6afd190cad23fa5';
+      $dataFromApi = file_get_contents($apiUrl);
+
+      if ($dataFromApi !== false) {
+        $jsonData = json_decode($dataFromApi, true);
+
+        // bring the information
+        $iconCode = $jsonData['weather'][0]['icon'];
+        $weatherMain = $jsonData['weather'][0]['main'];
+        $weatherDescription = $jsonData['weather'][0]['description'];
+        $tempKelvin = $jsonData['main']['temp'];
+        $tempCelsius = $tempKelvin - 273.15;
+
+        // output
+        echo '<img src="https://openweathermap.org/img/wn/' . $iconCode . '@2x.png" alt="weather icon">';
+        echo 'Weather: ' . $weatherMain . '; ' . $weatherDescription . '<br />';
+        echo 'Temperature: ' . number_format($tempCelsius, 1) . ' °C';
+      } else {
+        echo 'Error fetching weather data.';
+      }
+      ?>
+      <div class="page-content-return">
+        <a href="./index.php">Return ...</a>
       </div>
     </main>
   </div>
