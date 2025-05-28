@@ -50,7 +50,7 @@
             '<b>Last Record:</b> ' . $lastRecord . '<br />' .
             '<b>Short Description:</b> ' . $shortDescription . '<br />';
         } else {
-          echo 'Error fetching data.';
+          echo 'Error fetching data';
         }
         ?>
       </div>
